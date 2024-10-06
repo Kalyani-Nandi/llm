@@ -11,15 +11,13 @@ import {
   MiniMap,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import "./index.css";
+
 import Input from "./components/Input";
 import Output from "./components/Output";
 import LlmEngine from "./components/LlmEngine";
 import { DnDProvider, useDnD } from "./context/DnDContext";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-
-
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -87,11 +85,11 @@ const App = () => {
   );
 
   return (
-    <div className="dndflow">
+    <div className="overflow-hidden">
       <Header />
       <div className="mt-20 dndflow">
         <Sidebar />
-        <div style={{ width: "100vw", height: "100vh" }} ref={reactFlowWrapper}>
+        <div style={{ width: "100vw", height: "90vh" }} ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
