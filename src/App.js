@@ -17,6 +17,7 @@ import Output from "./components/Output";
 import LlmEngine from "./components/LlmEngine";
 import { DnDProvider, useDnD } from "./context/DnDContext";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
 
 
@@ -87,7 +88,7 @@ const App = () => {
 
   return (
     <div className="dndflow">
-      {/* <Header /> */}
+      <Header />
       <div className="mt-20 dndflow">
         <Sidebar />
         <div style={{ width: "100vw", height: "100vh" }} ref={reactFlowWrapper}>
