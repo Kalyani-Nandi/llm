@@ -1,9 +1,27 @@
-import React from 'react'
+import React from 'react';
+import { useDnD } from '../context/DnDContext';
 
-const Sidebar = () => {
+export default () => {
+  const [_, setType] = useDnD();
+
+  const onDragStart = (event, nodeType) => {
+    console.log(nodeType);
+    setType(nodeType);
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
-    <div>Sidebar</div>
-  )
-}
-
-export default Sidebar
+    <aside>
+      <div className="description">You can drag these nodes to the pane on the right.</div>
+      <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
+        Input Node
+      </div>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'llmEngine')} draggable>
+      LLMEngine Node
+      </div>
+      <div className="dndnode output" onDragStart={(event) => onDragStart(event, 'output')} draggable>
+        Output Node
+      </div>
+    </aside>
+  );
+};
