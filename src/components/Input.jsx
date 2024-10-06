@@ -1,10 +1,10 @@
 import React from "react";
-// import { useFormContext } from "./context/FormContext";
 import InputIcon from "./icons/InputIcon";
 import DotIcon from "./icons/DotIcon";
+import { useFormContext } from "../context/FormContext";
 
-export default function Input()  {
-  // const { prompt, setPrompt } = useFormContext();
+export default function Input() {
+  const { input, setInput } = useFormContext();
 
   return (
     <form className="rounded-lg shadow-lg">
@@ -23,9 +23,9 @@ export default function Input()  {
         <label className="pb-2 text-[#000000] text-sm ">Input</label>
         <input
           type="text"
-          className="border-[1px] rounded-[4px] border-solid border-[#666666] px-3 py-1 text-sm font-normal focus:outline-none"
-          // value={prompt}
-          // onChange={(e) => setPrompt(e.target.value)}
+          className="border-[1px] w-full rounded-[4px] border-solid border-[#666666] px-3 py-1 text-sm font-normal focus:outline-none"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Type something..."
           required
         />
@@ -35,4 +35,4 @@ export default function Input()  {
       </div>
     </form>
   );
-};
+}

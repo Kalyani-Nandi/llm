@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import LLMEngineIcon from "./icons/LLMEngineIcon";
 import DotIcon from "./icons/DotIcon";
+import { useFormContext } from "../context/FormContext";
 function LlmEngine() {
-  const [llmEngineData, setLlmEngineData] = useState({
-    modelName: "",
-    openAiKey: "",
-    apiBase: "",
-    maxTokens: "",
-    temperature: "",
-  });
+  const { llmEngineData, setLlmEngineData } = useFormContext();
+
   return (
     <form className="rounded-lg shadow-lg">
       <div className="flex justify-between py-2.5 px-4 items-center text-black font-semibold text-sm">
