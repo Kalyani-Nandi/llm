@@ -18,6 +18,8 @@ import LlmEngine from "./components/LlmEngine";
 import { DnDProvider, useDnD } from "./context/DnDContext";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
+import { ToastProvider } from "./context/ToastContext";
+import { FormProvider } from "./context/FormContext";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -112,8 +114,12 @@ const App = () => {
 
 export default () => (
   <ReactFlowProvider>
-    <DnDProvider>
-      <App />
-    </DnDProvider>
+    <ToastProvider>
+      <FormProvider>
+        <DnDProvider>
+          <App />
+        </DnDProvider>
+      </FormProvider>
+    </ToastProvider>
   </ReactFlowProvider>
 );
