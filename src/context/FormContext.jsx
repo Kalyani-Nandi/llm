@@ -107,7 +107,7 @@ export const FormProvider = ({ children }) => {
         showAlert({
           alertType: "success",
           title: "Flow Ran Successfully.",
-          messages: "Your workflow is ready to deploy",
+          message: "Your workflow is ready to be deployed",
         });
       }
       setInput("");

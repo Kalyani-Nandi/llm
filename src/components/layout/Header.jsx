@@ -10,7 +10,7 @@ function Header() {
   const handleDeploy = () => {
     showAlert({
       alertType: "success",
-      message: "This is a warning message",
+      message: "Successfully deployed",
     });
   };
   return (
@@ -23,14 +23,14 @@ function Header() {
         <button
           className="bg-gray-400 hover:bg-gray-500 text-white py-1 px-4 rounded-lg"
           onClick={handleDeploy}
-          disabled
+          disabled={!response}
         >
           Deploy
         </button>
         <button
           className="bg-green-700 hover:bg-green-600 text-white py-1 px-4 flex gap-1 justify-center items-center rounded-lg"
           onClick={handleNavButtonClick}
-          disabled={response}
+          // disabled={response}
         >
           <RunIcon />
           Run
