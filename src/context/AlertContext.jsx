@@ -3,7 +3,7 @@ import Alert from "../components/Alert";
 
 const AlertContext = createContext();
 
-export const useToast = () => useContext(AlertContext);
+export const useAlert = () => useContext(AlertContext);
 
 export const AlertProvider = ({ children }) => {
   const [alerts, setAlerts] = useState([]);

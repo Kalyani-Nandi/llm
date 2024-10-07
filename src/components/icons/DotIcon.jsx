@@ -1,6 +1,6 @@
 import React from "react";
 
-function DotIcon() {
+function DotIcon({ color = "#666666" }) {
   return (
     <div>
       <svg
@@ -10,7 +10,7 @@ function DotIcon() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="6.08667" cy="6.59119" r="6" fill="#666666" />
+        <circle cx="6.08667" cy="6.59119" r="6" fill={color} />
       </svg>
     </div>
   );

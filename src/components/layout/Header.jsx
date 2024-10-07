@@ -3,10 +3,10 @@ import React from "react";
 import RunIcon from "../icons/RunIcon";
 import Logo from "../icons/Logo";
 import { useFormContext } from "../../context/FormContext";
-import { useToast } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
 function Header() {
-  const { handleNavButtonClick } = useFormContext();
-  const { showAlert } = useToast();
+  const { handleNavButtonClick, response } = useFormContext();
+  const { showAlert } = useAlert();
   const handleDeploy = () => {
     showAlert({
       alertType: "success",
@@ -30,6 +30,7 @@ function Header() {
         <button
           className="bg-green-700 hover:bg-green-600 text-white py-1 px-4 flex gap-1 justify-center items-center rounded-lg"
           onClick={handleNavButtonClick}
+          disabled={response}
         >
           <RunIcon />
           Run

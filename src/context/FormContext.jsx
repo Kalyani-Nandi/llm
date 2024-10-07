@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { useToast } from "./AlertContext";
+import { useAlert } from "./AlertContext";
 
 const FormContext = createContext();
 
@@ -16,13 +16,15 @@ export const FormProvider = ({ children }) => {
 
   const [input, setInput] = useState("");
   const [response, setResponse] = useState("");
+  const [error, setError] = useState("");
 
   const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
-  const { showAlert } = useToast();
+  const { showAlert } = useAlert();
 
   const validations = [
     {
+      type: "input",
       condition: !input,
       message: "Please enter the input text before running the flow",
     },
@@ -35,6 +37,7 @@ export const FormProvider = ({ children }) => {
       message: "Please enter the OpenAI API base before running the flow",
     },
     {
+      type: "openAiKey",
       condition: !llmEngineData.openAiKey,
       message: "Please enter the OpenAI key before running the flow",
     },
@@ -49,16 +52,18 @@ export const FormProvider = ({ children }) => {
   ];
 
   const checkValidation = () => {
-    for (const { condition, message } of validations) {
+    for (const { condition, message, type } of validations) {
       if (condition) {
         showAlert({
           alertType: "error",
           message,
           title: "Error while running the flow",
         });
+        setError(type);
         return false;
       }
     }
+    setError("");
     return true;
   };
 
@@ -130,6 +135,7 @@ export const FormProvider = ({ children }) => {
         setInput,
         response,
         handleNavButtonClick,
+        error,
       }}
     >
       {children}

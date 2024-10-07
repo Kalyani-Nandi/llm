@@ -4,8 +4,8 @@ import DotIcon from "../icons/DotIcon";
 import { useFormContext } from "../../context/FormContext";
 
 export default function Input() {
-  const { input, setInput } = useFormContext();
-
+  const { input, setInput, error } = useFormContext();
+  console.log(error);
   return (
     <form className="rounded-lg shadow-lg">
       <div className="flex justify-between py-2.5 px-4 items-center text-black font-semibold text-sm">
@@ -13,7 +13,7 @@ export default function Input() {
           <InputIcon />
           INPUT
         </div>
-        <DotIcon />
+        <DotIcon color={error === "input" ? "#FF0000" : "#666666"} />
       </div>
 
       <div className="px-4 py-2.5 bg-[#EEF4FF] text-[#666666] font-medium text-sm">
