@@ -7,25 +7,45 @@ export const useFormContext = () => useContext(FormContext);
 
 export const FormProvider = ({ children }) => {
   const [llmEngineData, setLlmEngineData] = useState({
-    modelName: "gpt-3.5-turbo", 
+    modelName: "gpt-3.5-turbo",
     openAiKey: "",
     apiBase: "https://api.openai.com/v1/chat/completions",
-    maxTokens: "100", 
-    temperature: "0.7", 
+    maxTokens: "100",
+    temperature: "0.7",
   });
 
   const [input, setInput] = useState("");
+  const [response, setResponse] = useState("");
+
   const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const { showToast } = useToast();
 
   const validations = [
-    { condition: !input, message: "Please enter the input text before running the flow" },
-    { condition: !llmEngineData.modelName, message: "Please enter the model name before running the flow" },
-    { condition: !llmEngineData.apiBase, message: "Please enter the OpenAI API base before running the flow" },
-    { condition: !llmEngineData.openAiKey, message: "Please enter the OpenAI key before running the flow" },
-    { condition: !llmEngineData.maxTokens, message: "Please enter the max tokens before running the flow" },
-    { condition: !llmEngineData.temperature, message: "Please enter the temperature before running the flow" },
+    {
+      condition: !input,
+      message: "Please enter the input text before running the flow",
+    },
+    {
+      condition: !llmEngineData.modelName,
+      message: "Please enter the model name before running the flow",
+    },
+    {
+      condition: !llmEngineData.apiBase,
+      message: "Please enter the OpenAI API base before running the flow",
+    },
+    {
+      condition: !llmEngineData.openAiKey,
+      message: "Please enter the OpenAI key before running the flow",
+    },
+    {
+      condition: !llmEngineData.maxTokens,
+      message: "Please enter the max tokens before running the flow",
+    },
+    {
+      condition: !llmEngineData.temperature,
+      message: "Please enter the temperature before running the flow",
+    },
   ];
 
   const checkValidation = () => {
@@ -42,11 +62,8 @@ export const FormProvider = ({ children }) => {
     return true;
   };
 
-  const handleSubmit = async () => {
+  const handelRun = async () => {
     const promptInput = { role: "user", content: input };
-    const updatedMessages = [...messages, promptInput];
-
-    setMessages(updatedMessages);
 
     try {
       const response = await fetch(llmEngineData.apiBase, {
@@ -56,28 +73,39 @@ export const FormProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: llmEngineData?.modelName, 
-          messages: updatedMessages,
-          max_tokens: parseInt(llmEngineData?.maxTokens, 10) || 100, 
-          temperature: parseFloat(llmEngineData?.temperature) || 0.7, 
+          model: llmEngineData?.modelName,
+          messages: [promptInput],
+          max_tokens: parseInt(llmEngineData?.maxTokens, 10) || 100,
+          temperature: parseFloat(llmEngineData?.temperature) || 0.7,
         }),
       });
 
       const data = await response.json();
-
       if (data?.error) {
+        const errorMessage =
+          data?.error.message || "Please Check the OpenAI Key And Try Again";
+        const limitedMessage = errorMessage.split(" ").slice(0, 15).join(" ");
         showToast({
           toastType: "error",
-          message: "Please check the OpenAI key and try again",
+          message:
+            errorMessage.split(" ").length > 15
+              ? `${limitedMessage}...`
+              : errorMessage,
         });
       } else {
-        const res = data.choices[0]?.message?.content || "";
-        const assistantResponse = { role: "assistant", content: res };
-
-        setMessages((prev) => [...prev, assistantResponse]);
-        setHistory((prev) => [...prev, { question: input, answer: res }]);
-        setInput("");
+        const resContent = data.choices[0]?.message?.content || "";
+        setResponse(resContent);
+        // setHistory((prevHistory) => [
+        //   ...prevHistory,
+        //   { question: prompt, answer: resContent },
+        // ]);
+        showToast({
+          toastType: "success",
+          title: "Flow Ran Successfully.",
+          messages: "Your workflow is ready to deploy",
+        });
       }
+      setInput("");
     } catch (error) {
       console.error("Error fetching from OpenAI:", error);
       showToast({
@@ -89,8 +117,7 @@ export const FormProvider = ({ children }) => {
 
   const handleNavButtonClick = async () => {
     if (checkValidation()) {
-      console.log("API Credentials are valid.");
-      await handleSubmit();
+      await handelRun();
     }
   };
 
@@ -101,7 +128,7 @@ export const FormProvider = ({ children }) => {
         setLlmEngineData,
         input,
         setInput,
-        response: messages,
+        response,
         handleNavButtonClick,
       }}
     >

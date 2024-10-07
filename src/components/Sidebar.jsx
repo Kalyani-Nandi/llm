@@ -20,7 +20,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="dotted-background text-base font-medium p-6">
+    <aside className="w-[20%] text-base font-medium p-6">
       <div className="bg-gray-50 h-full w-full p-4 shadow-lg rounded-xl border">
         <div className="text-lg text-black border-b-[1px] mb-2 pb-2 border-gray-400">
           Components

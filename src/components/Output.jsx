@@ -1,9 +1,10 @@
 import React from "react";
 import OutPutIcon from "./icons/OutPutIcon";
 import DotIcon from "./icons/DotIcon";
+import { useFormContext } from "../context/FormContext";
 
 export default function Output() {
-  // const { response } = useFormContext();
+  const { response } = useFormContext();
 
   return (
     <div className="rounded-lg shadow-lg">
@@ -21,7 +22,7 @@ export default function Output() {
       <div className="px-4 pt-2.5 pb-4 flex items-start flex-col">
         <label className="pb-2 text-[#000000] text-sm ">Output Response</label>
         <textarea
-          // value={response}
+          value={response}
           readOnly
           className="border-[1px] rounded-[4px] border-solid border-[#666666] px-3 py-1 text-sm font-normal focus:outline-none"
           placeholder="Output response will be shown here"
@@ -34,3 +35,5 @@ export default function Output() {
     </div>
   );
 };
+
+

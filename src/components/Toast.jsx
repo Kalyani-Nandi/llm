@@ -4,6 +4,7 @@ import WarningIcon from "./icons/WarningIcon";
 import SuccessIcon from "./icons/SuccessIcon";
 import InfoIcon from "./icons/WarningIcon";
 import NotificationIcon from "./icons/SuccessIcon";
+import CloseIcon from "./icons/CloseIcon";
 
 const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
   const [progress, setProgress] = useState(0);
@@ -34,31 +35,20 @@ const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
   const currentToastStyle = toastStyles[type] || toastStyles.info;
   return (
     <div
-      className={`max-w-sm w-full mb-4 rounded-md shadow-lg text-white border-${currentToastStyle?.color}-500 p-4 relative bg-${currentToastStyle?.color}-500`}
+      style={{
+        border: `1px solid ${currentToastStyle?.color || "red"}`,
+        backgroundColor: currentToastStyle?.color || "red",
+      }}
+      className={`max-w-sm w-full mb-4 rounded-md shadow-lg text-white p-4 relative`}
     >
       <div className="flex items-start gap-3">
         <div className="mr-2">{currentToastStyle?.icon}</div>{" "}
-        {/* Render the icon here */}
         <div>
-          <p className="text-sm font-semibold">{title}</p>
-          <p className="text-sm">{message}</p>
+          <p className="text-sm font-bold">{title}</p>
+          <p className="text-sm font-semibold">{message}</p>
         </div>
         <button onClick={onClose}>
-          <svg
-            fill="red"
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
+          <CloseIcon />
         </button>
       </div>
       <div
