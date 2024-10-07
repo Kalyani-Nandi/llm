@@ -1,13 +1,13 @@
 import React from "react";
-import InputIcon from "./icons/InputIcon";
-import LLMEngineIcon from "./icons/LLMEngineIcon";
-import OutPutIcon from "./icons/OutPutIcon";
-import MenuIcon from "./icons/MenuIcon";
-import { useDnD } from "../context/DnDContext";
+import InputIcon from "../icons/InputIcon";
+import LLMEngineIcon from "../icons/LLMEngineIcon";
+import OutPutIcon from "../icons/OutPutIcon";
+import MenuIcon from "../icons/MenuIcon";
+import { useDnD } from "../../context/DnDContext";
 
 const COMPONENTS = [
   { id: "input", label: "Input", Icon: InputIcon },
-  { id: "default", label: "LLM Engine", Icon: LLMEngineIcon },
+  { id: "llmEngine", label: "LLM Engine", Icon: LLMEngineIcon },
   { id: "output", label: "Output", Icon: OutPutIcon },
 ];
 

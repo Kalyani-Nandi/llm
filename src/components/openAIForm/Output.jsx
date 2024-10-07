@@ -1,7 +1,7 @@
 import React from "react";
-import OutPutIcon from "./icons/OutPutIcon";
-import DotIcon from "./icons/DotIcon";
-import { useFormContext } from "../context/FormContext";
+import OutPutIcon from "../icons/OutPutIcon";
+import DotIcon from "../icons/DotIcon";
+import { useFormContext } from "../../context/FormContext";
 
 export default function Output() {
   const { response } = useFormContext();

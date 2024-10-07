@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useMemo } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -12,13 +12,13 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import Input from "./components/Input";
-import Output from "./components/Output";
-import LlmEngine from "./components/LlmEngine";
+import Input from "./components/openAIForm/Input";
+import Output from "./components/openAIForm/Output";
+import LlmEngine from "./components/openAIForm/LlmEngine";
 import { DnDProvider, useDnD } from "./context/DnDContext";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import { ToastProvider } from "./context/ToastContext";
+import Sidebar from "./components/layout/Sidebar";
+import Header from "./components/layout/Header";
+import { AlertProvider } from "./context/AlertContext";
 import { FormProvider } from "./context/FormContext";
 
 let id = 0;
@@ -31,59 +31,59 @@ const App = () => {
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
 
-  // onConnect to handle adding edges
-  const onConnect = useCallback((params) => {
-    console.log("Edge connected:", params);
-    setEdges((eds) => addEdge(params, eds));
+  const getNodeContent = useCallback((type) => {
+    switch (type) {
+      case "input":
+        return <Input />;
+      case "llmEngine":
+        return <LlmEngine />;
+      default:
+        return <Output />;
+    }
   }, []);
 
-  // onDragOver to allow dropping nodes
+  const onConnect = useCallback(
+    (params) => {
+      const sourceNode = nodes.find((node) => node.id === params.source);
+      const targetNode = nodes.find((node) => node.id === params.target);
+
+      const validConnection =
+        (sourceNode.type === "input" && targetNode.type === "llmEngine") || 
+        (sourceNode.type === "llmEngine" && targetNode.type === "output"); 
+
+      if (validConnection) {
+        setEdges((eds) => addEdge(params, eds));
+      }
+    },
+    [nodes, setEdges]
+  );
+
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-    console.log("Dragging over flow area");
   }, []);
 
-  // onDrop to handle dropped node creation
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-      console.log("Drop event detected");
 
-      // Check if valid type is being dragged
-      if (!type) {
-        return;
-      }
+      if (!type) return;
 
-      // Calculate position and create new node
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
 
-      console.log("Drop position:", position);
-
       const newNode = {
         id: getId(),
         type,
         position,
-        data: {
-          label: (() => {
-            if (type === "input") {
-              return <Input />;
-            } else if (type === "output") {
-              return <Output />;
-            } else {
-              return <LlmEngine />;
-            }
-          })(),
-        },
+        data: { label: getNodeContent(type) },
       };
 
-      // Add new node to nodes state
-      setNodes((nds) => nds.concat(newNode));
+      setNodes((nds) => [...nds, newNode]);
     },
-    [screenToFlowPosition, type]
+    [screenToFlowPosition, type, getNodeContent, setNodes]
   );
 
   return (
@@ -114,12 +114,12 @@ const App = () => {
 
 export default () => (
   <ReactFlowProvider>
-    <ToastProvider>
+    <AlertProvider>
       <FormProvider>
         <DnDProvider>
           <App />
         </DnDProvider>
       </FormProvider>
-    </ToastProvider>
+    </AlertProvider>
   </ReactFlowProvider>
 );

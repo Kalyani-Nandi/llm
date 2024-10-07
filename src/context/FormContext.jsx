@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { useToast } from "./ToastContext";
+import { useToast } from "./AlertContext";
 
 const FormContext = createContext();
 
@@ -19,7 +19,7 @@ export const FormProvider = ({ children }) => {
 
   const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
-  const { showToast } = useToast();
+  const { showAlert } = useToast();
 
   const validations = [
     {
@@ -51,8 +51,8 @@ export const FormProvider = ({ children }) => {
   const checkValidation = () => {
     for (const { condition, message } of validations) {
       if (condition) {
-        showToast({
-          toastType: "error",
+        showAlert({
+          alertType: "error",
           message,
           title: "Error while running the flow",
         });
@@ -85,8 +85,8 @@ export const FormProvider = ({ children }) => {
         const errorMessage =
           data?.error.message || "Please Check the OpenAI Key And Try Again";
         const limitedMessage = errorMessage.split(" ").slice(0, 15).join(" ");
-        showToast({
-          toastType: "error",
+        showAlert({
+          alertType: "error",
           message:
             errorMessage.split(" ").length > 15
               ? `${limitedMessage}...`
@@ -99,8 +99,8 @@ export const FormProvider = ({ children }) => {
         //   ...prevHistory,
         //   { question: prompt, answer: resContent },
         // ]);
-        showToast({
-          toastType: "success",
+        showAlert({
+          alertType: "success",
           title: "Flow Ran Successfully.",
           messages: "Your workflow is ready to deploy",
         });
@@ -108,8 +108,8 @@ export const FormProvider = ({ children }) => {
       setInput("");
     } catch (error) {
       console.error("Error fetching from OpenAI:", error);
-      showToast({
-        toastType: "error",
+      showAlert({
+        alertType: "error",
         message: "An error occurred while fetching the response.",
       });
     }

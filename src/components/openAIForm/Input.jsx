@@ -1,7 +1,7 @@
 import React from "react";
-import InputIcon from "./icons/InputIcon";
-import DotIcon from "./icons/DotIcon";
-import { useFormContext } from "../context/FormContext";
+import InputIcon from "../icons/InputIcon";
+import DotIcon from "../icons/DotIcon";
+import { useFormContext } from "../../context/FormContext";
 
 export default function Input() {
   const { input, setInput } = useFormContext();

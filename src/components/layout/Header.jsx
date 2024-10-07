@@ -1,15 +1,15 @@
 import React from "react";
 
-import RunIcon from "./icons/RunIcon";
-import Logo from "./icons/Logo";
-import { useFormContext } from "../context/FormContext";
-import { useToast } from "../context/ToastContext";
+import RunIcon from "../icons/RunIcon";
+import Logo from "../icons/Logo";
+import { useFormContext } from "../../context/FormContext";
+import { useToast } from "../../context/AlertContext";
 function Header() {
   const { handleNavButtonClick } = useFormContext();
-  const { showToast } = useToast();
+  const { showAlert } = useToast();
   const handleDeploy = () => {
-    showToast({
-      toastType: "success",
+    showAlert({
+      alertType: "success",
       message: "This is a warning message",
     });
   };
@@ -23,6 +23,7 @@ function Header() {
         <button
           className="bg-gray-400 hover:bg-gray-500 text-white py-1 px-4 rounded-lg"
           onClick={handleDeploy}
+          disabled
         >
           Deploy
         </button>

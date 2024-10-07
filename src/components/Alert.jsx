@@ -6,7 +6,7 @@ import InfoIcon from "./icons/WarningIcon";
 import NotificationIcon from "./icons/SuccessIcon";
 import CloseIcon from "./icons/CloseIcon";
 
-const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
+const Alert = ({ type = "info", message, title, duration = 5000, onClose }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
     return () => clearInterval(interval);
   }, [duration, onClose]);
 
-  const toastStyles = {
+  const alertStyles = {
     error: { icon: <ErrorIcon />, color: "red" },
     warning: { icon: <WarningIcon />, color: "orange" },
     info: { icon: <InfoIcon />, color: "blue" },
@@ -32,17 +32,17 @@ const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
     notification: { icon: <NotificationIcon />, color: "gray" },
   };
 
-  const currentToastStyle = toastStyles[type] || toastStyles.info;
+  const currentAlertStyle = alertStyles[type] || alertStyles.info;
   return (
     <div
       style={{
-        border: `1px solid ${currentToastStyle?.color || "red"}`,
-        backgroundColor: currentToastStyle?.color || "red",
+        border: `1px solid ${currentAlertStyle?.color || "red"}`,
+        backgroundColor: currentAlertStyle?.color || "red",
       }}
       className={`max-w-sm w-full mb-4 rounded-md shadow-lg text-white p-4 relative`}
     >
       <div className="flex items-start gap-3">
-        <div className="mr-2">{currentToastStyle?.icon}</div>{" "}
+        <div className="mr-2">{currentAlertStyle?.icon}</div>{" "}
         <div>
           <p className="text-sm font-bold">{title}</p>
           <p className="text-sm font-semibold">{message}</p>
@@ -52,11 +52,11 @@ const Toast = ({ type = "info", message, title, duration = 5000, onClose }) => {
         </button>
       </div>
       <div
-        className={`absolute bottom-0 left-0 h-1 bg-${currentToastStyle?.color}-200`}
+        className={`absolute bottom-0 left-0 h-1 bg-${currentAlertStyle?.color}-200`}
         style={{ width: `${progress}%`, transition: "width 0.1s linear" }}
       ></div>
     </div>
   );
 };
 
-export default Toast;
+export default Alert;
