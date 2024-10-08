@@ -17,9 +17,6 @@ export const FormProvider = ({ children }) => {
   const [input, setInput] = useState("");
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
-
-  const [messages, setMessages] = useState([]);
-  const [history, setHistory] = useState([]);
   const { showAlert } = useAlert();
 
   const validations = [
@@ -100,10 +97,6 @@ export const FormProvider = ({ children }) => {
       } else {
         const resContent = data.choices[0]?.message?.content || "";
         setResponse(resContent);
-        // setHistory((prevHistory) => [
-        //   ...prevHistory,
-        //   { question: prompt, answer: resContent },
-        // ]);
         showAlert({
           alertType: "success",
           title: "Flow Ran Successfully.",
