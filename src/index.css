@@ -14,7 +14,6 @@
   background: #fcfcfc;
 }
 
-
 .dndflow .dndnode {
   height: 20px;
   padding: 4px;
@@ -65,3 +64,9 @@
   border: 1px solid #00000014 !important;
   width: fit-content !important;
 }
+.react-flow__handle {
+  background: green !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
